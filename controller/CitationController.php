@@ -91,14 +91,94 @@ class CitationController extends BaseController
         }
     }
 
+    public function getUpdatePage($id)
+    {
+        $quotes = $this->citationModel->getBdOneCitation($id);
+
+        // echo "<pre>";
+        // print_r($quotes);
+        // echo "</pre>";
+        require_once "views/updateCitation.php";
+    }
+
     public function UpdateQuote()
     {
         //Vérification des droits d'accès avant suppression
         if (Security::verifAccess()) {
-            echo "update quote";
+
+            $id = (int)Security::secureHTML($_POST['id']);
+            $quote = Security::secureHTML($_POST['quote']);
+            $author = Security::secureHTML($_POST['author']);
+
+            $this->citationModel->updateBdQuote($id, $quote, $author);
+
+
+            $_SESSION['alert'] = [
+                "type" => "success",
+                "message" => "La citation a bien été modifiée"
+            ];
+
+            header("Location: ".URL."admin/citations/visualisation");
 
         } else {
             throw new Exception("Vous n'avez pas les droits d'accès");
         }
     }
+
+    // public function createQuote()
+    // {
+    //     try{
+    //         //vérification de l'access
+    //     if (Security::verifAccess()) {
+    //         //récupération de l'id du sermon
+    //         // echo $_POST['sermon_id'];
+
+    //         //sécurisation de l'injection et transformation en entier
+            
+    //         require_once "views/createCitation.php";
+
+    //     }else{
+    //         throw new Exception("Vous n'avez pas les droits d'accès");
+            
+    //     }
+    //     }catch(Exception $e){
+    //         $msg = $e->getMessage();
+    //         echo $msg;
+    //     }
+    // }
+
+    public function getPageCreation()
+    {
+        require_once "views/createCitation.php";
+    }
+
+    public function createQuotation()
+    {
+        try{
+            //vérification de l'access
+        if (Security::verifAccess()) {
+
+            $citation = Security::secureHTML($_POST['quote']);
+            $author = Security::secureHTML($_POST['author']);
+
+            $this->citationModel->createBdQuote($citation, $author);
+
+            $_SESSION['alert'] = [
+                "type" => "success",
+                "message" => "La citation a bien été créée"
+            ];
+                
+                header("Location: ".URL."admin/citations/visualisation");
+
+        }else{
+            throw new Exception("Vous n'avez pas les droits d'accès");
+            
+        }
+        }catch(Exception $e){
+            $msg = $e->getMessage();
+            echo $msg;
+        }
+    }
+
+
 }

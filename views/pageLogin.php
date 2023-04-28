@@ -16,4 +16,4 @@
 <?php 
 $content = ob_get_clean();
 $title = "Page de Login";
-require_once "views/template.php";
+require_once "views/assets/template.php";

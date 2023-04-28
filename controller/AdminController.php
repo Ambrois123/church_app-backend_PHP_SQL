@@ -3,7 +3,9 @@
 require_once "config/Security.php";
 require_once "model/AdminModel.php";
 
-class AdminController 
+require_once "BaseController.php";
+
+class AdminController extends BaseController
 {
     private $adminModel;
 
@@ -61,4 +63,5 @@ class AdminController
         session_destroy();
         header("Location: ".URL."admin/login");
     }
+
 }

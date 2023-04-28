@@ -1,6 +1,7 @@
 <?php 
 
-class Sermons 
+require_once "config/Database.php";
+class Sermons extends Database
 {
     private $id;
     private $title;

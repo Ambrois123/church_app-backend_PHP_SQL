@@ -21,10 +21,7 @@ class AdminController extends BaseController
 
     public function connexion()
     {
-        //accès au site
-        /*l= Page_Admin_Eglise
-        p= aegt_church_Admin31
-        */
+        
 
         //Vérification des droits d'accès
         if (!empty($_POST['login']) && !empty($_POST['password'])) {
